@@ -77,7 +77,7 @@ jobs:
     name: ChatGPT Code Review
     steps:
       - name: GenAI Code Review
-        uses: dlidstrom/genai-code-review@3
+        uses: dlidstrom/genai-code-review@v3
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
