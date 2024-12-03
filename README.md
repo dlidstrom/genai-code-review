@@ -92,7 +92,7 @@ jobs:
 
 In the above workflow, the `pull_request` event triggers the workflow whenever a
 pull request is opened or synchronized. The workflow runs on the ubuntu-latest
-runner and uses the `dlidstrom/chatgpt-github-actions@3` action.
+runner and uses the `dlidstrom/chatgpt-github-actions@v3` action.
 
 The `OPENAI_API_KEY` is passed from the secrets context, and the `GITHUB_TOKEN` is
 also passed from the secrets context. The `github_pr_id` is passed from the
