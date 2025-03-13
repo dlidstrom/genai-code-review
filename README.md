@@ -21,6 +21,7 @@ You can do this by going to your repository/organization's settings, navigate to
 ### Step 2: Adjust Permissions
 
 Then you need to set up your project's permissions so that the Github Actions can write comments on Pull Requests. You can read more about this here: [automatic-token-authentication](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token)
+**NOTE:** alternatively you can add temporary permissions directly in the github action as shown in the example below.
 
 ### Step 3: Create a new Github Actions workflow in your repository in `.github/workflows/chatgpt-review.yaml. A sample workflow is given below:
 
@@ -28,6 +29,11 @@ Then you need to set up your project's permissions so that the Github Actions ca
 on:
   pull_request:
     types: [opened, synchronize]
+
+permissions:
+  issues: write
+  pull-requests: write
+  contents: read
 
 jobs:
   code_review_job:
