@@ -58,6 +58,7 @@ OpenAI API key as the value.
 #### 1.1.2. Step 2: Adjust Permissions
 
 Then you need to set up your project's permissions so that the Github Actions can write comments on Pull Requests. You can read more about this here: [automatic-token-authentication](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token)
+**NOTE:** alternatively you can add temporary permissions directly in the github action as shown in the example below.
 
 #### 1.1.3. Step 3: Create a new Github Actions workflow
 
@@ -70,6 +71,8 @@ on:
 
 permissions:
   issues: write
+  pull-requests: write
+  contents: read
 
 jobs:
   code_review_job:
