@@ -1,5 +1,8 @@
 name: "ChatGPT GitHub Actions"
-description: "This GitHub Action automates code review for pull requests using OpenAI's GPT models. By integrating this action into your CI/CD pipeline, it provides detailed, AI-generated reviews of your code directly within the PR comments. This tool helps maintain code quality, ensures adherence to best practices, and highlights potential improvements and bugs."
+description: "This GitHub Action automates code review for pull requests using OpenAI's GPT models."
+branding:
+  icon: 'check-square'
+  color: 'green'
 inputs:
   openai_api_key:  # id of input
     description: 'OpenAI API Key'
@@ -48,5 +51,5 @@ runs:
     OPENAI_TEMPERATURE: ${{ inputs.openai_temperature }}
     OPENAI_MAX_TOKENS: ${{ inputs.openai_max_tokens }}
     MODE: ${{ inputs.mode }}
-    LANGUAGE: ${{ inputs.language }} 
-    CUSTOM_PROMPT: ${{ inputs.custom_prompt }} 
+    LANGUAGE: ${{ inputs.language }}
+    CUSTOM_PROMPT: ${{ inputs.custom_prompt }}
