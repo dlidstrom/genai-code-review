@@ -24,6 +24,7 @@ class GithubClient:
 
         Args:
             token (str): The GitHub token for authentication.
+            base_url (str): Base url for Github. Needed for custom GHES urls.
         """
         try:
             if base_url:

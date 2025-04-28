@@ -21,7 +21,7 @@ def main():
         return
 
     if env_vars['GITHUB_BASE_URL']:
-        github_client = GithubClient(env_vars['GITHUB_TOKEN'], env_vars['GITHUB_BASEURL'])
+        github_client = GithubClient(env_vars['GITHUB_TOKEN'], env_vars['GITHUB_BASE_URL'])
     else:
         github_client = GithubClient(env_vars['GITHUB_TOKEN'])
     openai_client = OpenAIClient(env_vars['OPENAI_MODEL'],
@@ -68,7 +68,7 @@ def get_env_vars():
         'MODE': (str, True),
         'LANGUAGE': (str, True),
         'CUSTOM_PROMPT': (str, False),
-        'GITHUB_BASEURL': (str, False)
+        'GITHUB_BASE_URL': (str, False)
     }
 
     env_vars = {}

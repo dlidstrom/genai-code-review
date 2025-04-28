@@ -16,6 +16,10 @@ inputs:
     description: 'Github PR ID'
     required: true
     default: ''
+  github_base_url:  # id of input
+    description: 'Base url for Github'
+    required: false
+    default: ''
   openai_model:
     description: "The OpenAI model to use for generating responses. Examples: 'gpt-3.5-turbo', 'gpt-4'"
     required: false
