@@ -18,7 +18,7 @@ class GithubClient:
     A client for interacting with the GitHub API to manage pull requests and repository content.
     """
 
-    def __init__(self, token):
+    def __init__(self, token, base_url=None):
         """
         Initialize the GithubClient with a GitHub token.
 
@@ -26,7 +26,16 @@ class GithubClient:
             token (str): The GitHub token for authentication.
         """
         try:
-            self.client = Github(token)
+            if base_url:
+                self.client = Github(
+                    login_or_token=token,
+                    base_url=base_url
+                )
+            else:
+                self.client = Github(
+                    login_or_token=token
+                )
+
             self.repo_name = os.getenv('GITHUB_REPOSITORY')
             self.repo = self.client.get_repo(self.repo_name)
             logging.info("Initialized GitHub client for repository: %s", self.repo_name)

@@ -20,7 +20,10 @@ def main():
         logging.error("Environment variable error: %s", e)
         return
 
-    github_client = GithubClient(env_vars['GITHUB_TOKEN'])
+    if env_vars['GITHUB_BASE_URL']:
+        github_client = GithubClient(env_vars['GITHUB_TOKEN'], env_vars['GITHUB_BASEURL'])
+    else:
+        github_client = GithubClient(env_vars['GITHUB_TOKEN'])
     openai_client = OpenAIClient(env_vars['OPENAI_MODEL'],
                                  env_vars['OPENAI_TEMPERATURE'],
                                  env_vars['OPENAI_MAX_TOKENS'])
@@ -64,7 +67,8 @@ def get_env_vars():
         'OPENAI_MAX_TOKENS': (int, True),
         'MODE': (str, True),
         'LANGUAGE': (str, True),
-        'CUSTOM_PROMPT': (str, False)
+        'CUSTOM_PROMPT': (str, False),
+        'GITHUB_BASEURL': (str, False)
     }
 
     env_vars = {}
