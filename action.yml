@@ -17,7 +17,7 @@ inputs:
     required: true
     default: ''
   github_base_url:  # id of input
-    description: 'Base url for Github'
+    description: "Base url for Github in the form 'https://github.company.com/api/v3'"
     required: false
     default: ''
   openai_model:
