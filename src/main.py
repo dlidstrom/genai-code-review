@@ -20,8 +20,7 @@ def main():
         logging.error("Environment variable error: %s", e)
         return
 
-    github_base_url = env_vars.get('GITHUB_BASE_URL') or 'https://api.github.com'
-    github_client = GithubClient(env_vars['GITHUB_TOKEN'], github_base_url)
+    github_client = GithubClient(env_vars['GITHUB_TOKEN'], env_vars['GITHUB_BASE_URL'])
     openai_client = OpenAIClient(env_vars['OPENAI_MODEL'],
                                  env_vars['OPENAI_TEMPERATURE'],
                                  env_vars['OPENAI_MAX_TOKENS'])
