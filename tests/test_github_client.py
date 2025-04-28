@@ -8,6 +8,7 @@ class TestGithubClient(unittest.TestCase):
     def setUp(self):
         self.token = "fake_github_token"
         self.repo_name = "fake_repo"
+        self.repo_url = "fake_repo_url"
         self.pr_id = 1
         self.commit_sha = "fake_commit_sha"
         self.filename = "fake_file.py"
@@ -18,7 +19,7 @@ class TestGithubClient(unittest.TestCase):
         with patch('clients.github_client.Github') as MockGithub:
             self.mock_github = MockGithub.return_value
             self.mock_repo = self.mock_github.get_repo.return_value
-            self.github_client = GithubClient(self.token)
+            self.github_client = GithubClient(self.token, self.repo_url)
 
     def tearDown(self):
         del os.environ['GITHUB_REPOSITORY']
