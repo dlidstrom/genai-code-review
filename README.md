@@ -12,6 +12,7 @@
     - [1.3.3. `mode`](#133-mode)
     - [1.3.4. `language`](#134-language)
     - [1.3.5. `custom_prompt`](#135-custom_prompt)
+    - [1.3.6. `github_base_url`](#136-github_base_url)
 - [2. How it works](#2-how-it-works)
   - [2.1. files](#21-files)
   - [2.2. patch](#22-patch)
@@ -152,6 +153,11 @@ See [the documentation](https://docs.github.com/en/actions/writing-workflows/cho
 - **Description**: Custom instructions for the AI to follow when generating the review.
 - **Default**: `""` (empty)
 - **Usage**: Provide specific guidelines or focus areas for the AI's code review.
+
+#### 1.3.6. `github_base_url`
+
+- **Description**: Base url for Github in the form `https://github.company.com/api/v3`
+- **Default**: `https://api.github.com`
 
 ## 2. How it works
 

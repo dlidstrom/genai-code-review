@@ -83,7 +83,7 @@ def get_env_vars():
                 logging.error("%s must be of type %s. Error: %s", var, var_type.__name__, e)
                 raise ValueError(f"{var} must be of type {var_type.__name__}.") from e
         else:
-            env_vars[var] = None
+            env_vars[var] = Non
 
     return env_vars
 

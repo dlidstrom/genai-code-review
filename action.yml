@@ -57,3 +57,4 @@ runs:
     MODE: ${{ inputs.mode }}
     LANGUAGE: ${{ inputs.language }}
     CUSTOM_PROMPT: ${{ inputs.custom_prompt }}
+    GITHUB_BASE_URL: ${{ inputs.github_base_url }}
