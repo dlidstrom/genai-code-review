@@ -49,6 +49,7 @@ runs:
   image: "Dockerfile"
   env:
     OPENAI_API_KEY: ${{ inputs.openai_api_key }}
+    GITHUB_BASE_URL: ${{ inputs.github_base_url }}
     GITHUB_TOKEN: ${{ inputs.github_token }}
     GITHUB_PR_ID: ${{ inputs.github_pr_id }}
     OPENAI_MODEL: ${{ inputs.openai_model }}
