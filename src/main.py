@@ -179,7 +179,7 @@ def analyze_commit_files(github_client, openai_client, pr_id, commit, language, 
           content = github_client.get_file_content(commit.sha, file.filename)
           combined_content += f"\n### File: {file.filename}\n```{content}```\n"
         except:
-          logging.warn("Failed to get file: %s", file.filename)
+          logging.warning("Failed to get file: %s", file.filename)
 
     review = openai_client.generate_response(create_review_prompt(combined_content,
                                                                   language,
