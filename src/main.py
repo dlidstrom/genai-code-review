@@ -3,6 +3,7 @@ Main module for handling the code review process using ChatGPT and GitHub API.
 """
 
 import logging
+import re
 from clients.github_client import GithubClient
 from clients.openai_client import OpenAIClient
 from utils.helpers import get_env_variable
@@ -65,7 +66,9 @@ def get_env_vars():
         'MODE': (str, True),
         'LANGUAGE': (str, True),
         'CUSTOM_PROMPT': (str, False),
-        'GITHUB_BASE_URL': (str, False)
+        'GITHUB_BASE_URL': (str, False),
+        'INCLUDE_REGEX': (str, False),
+        'EXCLUDE_REGEX': (str, False)
     }
 
     env_vars = {}
@@ -83,7 +86,7 @@ def get_env_vars():
                 logging.error("%s must be of type %s. Error: %s", var, var_type.__name__, e)
                 raise ValueError(f"{var} must be of type {var_type.__name__}.") from e
         else:
-            env_vars[var] = Non
+            env_vars[var] = None
 
     return env_vars
 
@@ -142,6 +145,16 @@ def analyze_commit_files(github_client, openai_client, pr_id, commit, language, 
     """
     logging.info("Analyzing files in commit: %s", commit.sha)
     files = github_client.get_commit_files(commit)
+
+    include_regex = env_vars.get('INCLUDE_REGEX')
+    if include_regex:
+        logging.info("Including only files matching regex: %s", include_regex)
+        files = [file for file in files if re.search(include_regex, file.filename)]
+
+    exclude_regex = env_vars.get('EXCLUDE_REGEX')
+    if exclude_regex:
+        logging.info("Excluding files matching regex: %s", exclude_regex)
+        files = [file for file in files if not re.search(exclude_regex, file.filename)]
 
     combined_content = ""
     for file in files:

@@ -44,6 +44,14 @@ inputs:
     description: "Custom prompt to use for generating responses. If not provided, a default prompt will be used based on the mode."
     required: false
     default: ""
+  include_regex:
+    description: "Regex pattern to include specific files for review. If not provided, all files will be included."
+    required: false
+    default: ""
+  exclude_regex:
+    description: "Regex pattern to exclude specific files from review. If not provided, no files will be excluded."
+    required: false
+    default: ""
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -58,3 +66,5 @@ runs:
     LANGUAGE: ${{ inputs.language }}
     CUSTOM_PROMPT: ${{ inputs.custom_prompt }}
     GITHUB_BASE_URL: ${{ inputs.github_base_url }}
+    INCLUDE_REGEX: ${{ inputs.include_regex }}
+    EXCLUDE_REGEX: ${{ inputs.exclude_regex }}
