@@ -13,6 +13,8 @@
     - [1.3.4. `language`](#134-language)
     - [1.3.5. `custom_prompt`](#135-custom_prompt)
     - [1.3.6. `github_base_url`](#136-github_base_url)
+    - [1.3.7. `include_regex`](#137-include_regex)
+    - [1.3.8. `exclude_regex`](#138-exclude_regex)
 - [2. How it works](#2-how-it-works)
   - [2.1. files](#21-files)
   - [2.2. patch](#22-patch)
@@ -158,6 +160,14 @@ See [the documentation](https://docs.github.com/en/actions/writing-workflows/cho
 
 - **Description**: Base url for Github in the form `https://github.company.com/api/v3`
 - **Default**: `https://api.github.com`
+
+#### 1.3.7. `include_regex`
+
+- **Description**: Regex pattern to include specific files for review. If not provided, all files will be included.
+
+#### 1.3.8. `exclude_regex`
+
+- **Description**: Regex pattern to exclude specific files from review. If not provided, no files will be excluded.
 
 ## 2. How it works
 
