@@ -28,19 +28,25 @@ def main():
 
     language = env_vars.get('LANGUAGE', 'en')
     custom_prompt = env_vars.get('CUSTOM_PROMPT')
+    include_regex = env_vars.get('INCLUDE_REGEX')
+    exclude_regex = env_vars.get('EXCLUDE_REGEX')
 
     if env_vars['MODE'] == "files":
-        process_files(github_client,
-                      openai_client,
-                      env_vars['GITHUB_PR_ID'],
-                      language,
-                      custom_prompt)
+        process_files(
+          github_client,
+          openai_client,
+          env_vars['GITHUB_PR_ID'],
+          language,
+          custom_prompt,
+          include_regex,
+          exclude_regex)
     elif env_vars['MODE'] == "patch":
-        process_patch(github_client,
-                      openai_client,
-                      env_vars['GITHUB_PR_ID'],
-                      language,
-                      custom_prompt)
+        process_patch(
+          github_client,
+          openai_client,
+          env_vars['GITHUB_PR_ID'],
+          language,
+          custom_prompt)
     else:
         logging.error("Invalid mode. Choose either 'files' or 'patch'.")
         raise ValueError("Invalid mode. Choose either 'files' or 'patch'.")
@@ -90,7 +96,7 @@ def get_env_vars():
 
     return env_vars
 
-def process_files(github_client, openai_client, pr_id, language, custom_prompt):
+def process_files(github_client, openai_client, pr_id, language, custom_prompt, include_regex, exclude_regex):
     """
     Process the files changed in the last commit of the pull request.
 
@@ -100,6 +106,8 @@ def process_files(github_client, openai_client, pr_id, language, custom_prompt):
         pr_id (int): The pull request ID.
         language (str): The language for the review.
         custom_prompt (str, optional): Custom prompt for the code review.
+        include_regex (str, optional): Regex pattern to include specific files.
+        exclude_regex (str, optional): Regex pattern to exclude specific files.
     """
     logging.info("Processing files for PR ID: %s", pr_id)
     pull_request = github_client.get_pr(pr_id)
@@ -110,7 +118,15 @@ def process_files(github_client, openai_client, pr_id, language, custom_prompt):
         return
 
     last_commit = commits[-1]
-    analyze_commit_files(github_client, openai_client, pr_id, last_commit, language, custom_prompt)
+    analyze_commit_files(
+      github_client,
+      openai_client,
+      pr_id,
+      last_commit,
+      language,
+      custom_prompt,
+      include_regex,
+      exclude_regex)
 
 def process_patch(github_client, openai_client, pr_id, language, custom_prompt):
     """
@@ -131,7 +147,7 @@ def process_patch(github_client, openai_client, pr_id, language, custom_prompt):
         return
     analyze_patch(github_client, openai_client, pr_id, patch_content, language, custom_prompt)
 
-def analyze_commit_files(github_client, openai_client, pr_id, commit, language, custom_prompt):
+def analyze_commit_files(github_client, openai_client, pr_id, commit, language, custom_prompt, include_regex, exclude_regex):
     """
     Analyze all files in a given commit together and post a single comment.
 
@@ -142,16 +158,16 @@ def analyze_commit_files(github_client, openai_client, pr_id, commit, language, 
         commit (Commit): The commit object.
         language (str): The language for the review.
         custom_prompt (str, optional): Custom prompt for the code review.
+        include_regex (str, optional): Regex pattern to include specific files.
+        exclude_regex (str, optional): Regex pattern to exclude specific files.
     """
     logging.info("Analyzing files in commit: %s", commit.sha)
     files = github_client.get_commit_files(commit)
 
-    include_regex = env_vars.get('INCLUDE_REGEX')
     if include_regex:
         logging.info("Including only files matching regex: %s", include_regex)
         files = [file for file in files if re.search(include_regex, file.filename)]
 
-    exclude_regex = env_vars.get('EXCLUDE_REGEX')
     if exclude_regex:
         logging.info("Excluding files matching regex: %s", exclude_regex)
         files = [file for file in files if not re.search(exclude_regex, file.filename)]
