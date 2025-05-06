@@ -27,7 +27,8 @@ class GithubClient:
             base_url (str): Base url for Github. Needed for custom GHES urls.
         """
         try:
-            self.client = Github(login_or_token=token, base_url=base_url)
+            self.base_url = base_url.rstrip("/") 
+            self.client = Github(login_or_token=token, base_url=self.base_url)
             self.repo_name = os.getenv('GITHUB_REPOSITORY')
             self.repo = self.client.get_repo(self.repo_name)
             logging.info("Initialized GitHub client for repository: %s", self.repo_name)
@@ -145,7 +146,7 @@ class GithubClient:
             str: The patch content of the pull request.
         """
         try:
-            url = f"https://api.github.com/repos/{self.repo_name}/pulls/{pr_id}"
+            url = f"{self.base_url}/repos/{self.repo_name}/pulls/{pr_id}"
             headers = {
                 'Authorization': f"token {os.getenv('GITHUB_TOKEN')}",
                 'Accept': 'application/vnd.github.v3.diff'
