@@ -200,18 +200,22 @@ def analyze_patch(github_client, openai_client, pr_id, patch_content, language, 
     """
     logging.info("Analyzing patch content for PR ID: %s", pr_id)
 
+    # Use regex to split on actual file diffs
+    file_diffs = re.split(r'(?=^diff --git )', patch_content, flags=re.MULTILINE)
+
     combined_diff = ""
-    for diff_text in patch_content.split("diff"):
-        if diff_text:
+    for diff_text in file_diffs:
+        if diff_text.strip():
             try:
-                file_name = diff_text.split("b/")[1].splitlines()[0]
+                match = re.search(r'^diff --git a\/.+ b\/(.+)', diff_text, re.MULTILINE)
+                file_name = match.group(1) if match else "Unknown file"
                 logging.info("Processing diff for file: %s", file_name)
-                combined_diff += f"\n### File: {file_name}\n```diff\n{diff_text}```\n"
-            except (TypeError, ValueError) as e:
-                logging.error("Error processing diff for file: %s: %s", file_name, str(e))
+                combined_diff += f"\n### File: {file_name}\n```diff\n{diff_text.strip()}```\n"
+            except Exception as e:
+                logging.error("Error processing diff: %s", str(e))
                 github_client.post_comment(
                     pr_id,
-                    f"ChatGPT was unable to process the response about {file_name}: {str(e)}"
+                    f"ChatGPT was unable to process the diff for a file: {str(e)}"
                 )
 
     review_prompt = create_review_prompt(combined_diff, language, custom_prompt)
