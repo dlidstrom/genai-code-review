@@ -1,3 +1,6 @@
+> 🔥 Update: [cirolini](https://github.com/cirolini/genai-code-review) is again working on the original code.
+> See the repo for a much more improved version that also considers cost.
+
 # GenAI Code Review <!-- omit in toc -->
 
 - [1. Setup](#1-setup)
